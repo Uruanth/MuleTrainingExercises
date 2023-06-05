@@ -1,0 +1,74 @@
+#%RAML 1.0
+title: exercise3_1
+
+version: v1
+
+uses:
+  responsesAccount: ./models/responses200/getAccountResponse.raml
+  enums: ./models/TypeAccountEnum.raml
+
+
+/getAccounts/{id}:
+  get:
+    description: "Get all account by id"
+    queryParameters:
+        accountType:
+          description: "An optional account type to fetch personal or business accounts"
+          type: enums.typeAccount
+          required: false
+        preference:
+          description: "An optional name to identify the accounts belonging to a particular customer"
+          type: string
+          minLength: 1
+          required: false
+    responses:
+      200:
+        body:
+          application/json:
+            type: responsesAccount.getAccount
+/customer/new/{id}:
+  post:
+    description: "Method tocreate customer accounts"
+    body:
+      application/json:
+        type: object
+        properties:
+          Name:
+            description: "Identifying either the name of the individual or company"
+            type: string
+            required: true
+            minLength: 1
+          Type:
+            description: "Either business or personal"
+            type: enums.typeAccount
+            required: true
+          Address: 
+            description: "value containing the address"
+            type: string
+            required: true
+            minLength: 5
+          Air Miles:
+            description: "A positive integer value indicating the air miles accrued"
+            type: number
+            required: true
+            minimum: 0
+        example:
+          {
+          Name: "Person",
+          Type: "personal",
+          Address: "12345 GreenSt,Boulder,Colorado,82433,USA",
+          Air Miles: 2,
+        }
+    responses:
+      200:
+        body:
+          application/json:
+            type: object
+            properties:
+              message:
+                type: string
+                minLength: 1
+            example:
+              {
+                message: "Accounts created"
+          }

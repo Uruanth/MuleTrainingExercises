@@ -1,0 +1,47 @@
+#%RAML 1.0 Library 
+
+uses:
+  enums: ../TypeAccountEnum.raml
+
+types:
+  getAccount:
+    type: object
+    properties:
+      ID: 
+        description: "Positive integer identifier"
+        type: number
+        required: true
+        minimum: 1
+      Name:
+        description: "Value identifying name"
+        type: string
+        required: true
+        minLength: 1
+      Type:
+        description: "Either business or personal"
+        type: enums.typeAccount
+        required: true
+      Address:
+        description: "a CSV string value containing the address"
+        type: string
+        required: true
+        minLength: 5
+      Air Miles:
+        description: "A positive integer value indicating the air miles accrued"
+        type: number
+        required: true
+        minimum: 0
+      Creation:
+        description: "a timestamp identifying the date and time the account was created"
+        type: datetime
+        required: true
+    example:
+      {
+        ID: 3,
+        Name: "Person",
+        Type: "personal",
+        Address: "12345 GreenSt,Boulder,Colorado,82433,USA",
+        Air Miles: 2,
+        Creation: "2023-06-05T14:30:00Z"
+  }
+
